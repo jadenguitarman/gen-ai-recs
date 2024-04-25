@@ -1,0 +1,92 @@
+.hitDetails {
+	display: grid;
+	grid-template-columns: 135px 2fr 100px;
+	grid-template-rows: 4em 1fr 2em;
+	grid-template-areas: 'img title      genre'
+						 'img overview   overview'
+					 	 'img cast       year';
+	column-gap: 20px;
+	row-gap: 7px;
+	width: 100%;
+}
+
+.hitDetails.smallerHit {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	text-align: center;
+}
+
+.hitImage {
+	grid-area: img;
+}
+
+.hitTitle {
+	grid-area: title;
+	font-weight: bold;
+	overflow: hidden;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+	font-size: 2em;
+	line-height: 1.25em;
+	width: 100%;
+}
+
+.hitDetails.smallerHit .hitTitle {
+	font-size: 1em;
+	line-height: 1em;
+}
+
+.hitOverview {
+	grid-area: overview;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+	overflow: hidden;
+	font-size: 1em;
+	line-height: 1.25em;
+	height: 6.25em;
+
+	@supports (-webkit-line-clamp: 5) {
+		white-space: initial;
+		display: -webkit-box;
+		-webkit-line-clamp: 5;
+		-webkit-box-orient: vertical;
+	}
+}
+
+.hitDetails.smallerHit .hitOverview {
+	font-size: 0.7em;
+	line-height: 1em;
+	height: 7em;
+
+	@supports (-webkit-line-clamp: 7) {
+		white-space: initial;
+		display: -webkit-box;
+		-webkit-line-clamp: 7;
+		-webkit-box-orient: vertical;
+	}
+}
+
+.hitGenre {
+	grid-area: genre;
+}
+
+.hitYear {
+	grid-area: year;
+}
+
+.hitGenre, .hitYear {
+	text-align: right;
+	width: 100%;
+	opacity: 0.6;
+	font-weight: bold;
+	font-size: 0.8em;
+}
+
+.hitCast {
+	grid-area: cast;
+	overflow: hidden;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+}

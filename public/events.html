@@ -1,0 +1,55 @@
+<html>
+	<head>
+		<script>
+			var ALGOLIA_INSIGHTS_SRC = "https://cdn.jsdelivr.net/npm/search-insights@2.11.0/dist/search-insights.min.js";
+
+			!function(e,a,t,n,s,i,c){e.AlgoliaAnalyticsObject=s,e[s]=e[s]||function(){
+			(e[s].queue=e[s].queue||[]).push(arguments)},e[s].version=(n.match(/@([^\/]+)\/?/) || [])[1],i=a.createElement(t),c=a.getElementsByTagName(t)[0],
+			i.async=1,i.src=n,c.parentNode.insertBefore(i,c)
+			}(window,document,"script",ALGOLIA_INSIGHTS_SRC,"aa");
+		</script>
+
+		<script
+			src="https://cdn.jsdelivr.net/npm/algoliasearch@4.23.3/dist/algoliasearch.umd.js"
+			integrity="sha256-76mmfHsYYb491qbcs1Vd/iK80pdRqKCOEYJtPEy8dys="
+			crossorigin="anonymous"
+		></script>
+	</head>
+
+	<body>
+		<script>
+			window.aa('init', {
+				appId: "OKF83BFQS4",
+				apiKey: "07ddd1b1d49bea7ba25ce951d88623ab"
+			});
+
+			const client = algoliasearch('OKF83BFQS4', '2f6e0786eb0a79c08c425775f65975bc');
+			const index = client.initIndex('movies_demo_quepid');
+
+
+			let totalHits = [];
+			index.browseObjects({
+				batch: (hits) => {
+					totalHits = [...totalHits, ...hits];
+				}
+			});
+
+			const sleep = (ms) => new Promise(res => setTimeout(res, ms));
+
+			const clickTimes = async (objectID, times) => {
+				for (let i = 0; i < times; i++) {
+					await click(objectID);
+					await sleep(100);
+				}
+			};
+
+			const click = async objectID => {
+				window.aa("clickedObjectIDs", {
+					index: "movies_demo_quepid",
+					eventName: "Movie Clicked",
+					objectIDs: [objectID]
+				});
+			};
+		</script>
+	</body>
+</html>
