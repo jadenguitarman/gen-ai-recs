@@ -6,6 +6,7 @@ import { RelatedProducts } from '@algolia/recommend-react';
 import recommend from '@algolia/recommend';
 import { useSearchParams } from 'next/navigation';
 import Hit from "../../components/Hit.js";
+import { Suspense } from 'react';
 
 const recommendClient = recommend(process.env.NEXT_PUBLIC_ALGOLIA_APPLICATION_ID, process.env.NEXT_PUBLIC_ALGOLIA_API_KEY);
 
@@ -25,6 +26,12 @@ const RecommendedItem = ({ item }) => (
 		linked={true}
 		generatedPitch={true}
 	/>
+);
+
+const MovieContainer = () => (
+	<Suspense>
+		<Movie />
+	</Suspense>
 )
 
 const Movie = () => {
@@ -63,4 +70,4 @@ const Movie = () => {
 	);
 };
 
-export default Movie;
+export default MovieContainer;
