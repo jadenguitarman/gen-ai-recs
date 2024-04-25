@@ -33,8 +33,10 @@ const requestUserData = async userID => {
 }
 
 const GET = async request => {
+	console.log("received")
 	try {
 		const { searchParams } = new URL(request.url);
+		console.log(searchParams)
 
 		const inputData = JSON.parse(
 			decodeURIComponent(
@@ -103,8 +105,12 @@ const GET = async request => {
 		const data = completion.choices[0];
 		return NextResponse.json({ data });
 	} catch (error) {
+		console.log(error)
 		if (isDynamicServerError(error)) throw error;
-		return NextResponse.json({ data: {} });
+		return NextResponse.json({
+			error: true,
+			message: "Server-side error."
+		});
 	}
 };
 

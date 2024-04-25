@@ -5,9 +5,10 @@ import { useState, useEffect } from 'react';
 
 
 const requestOpenAI = async (movieData, setData, setLoading) => {
-	//*
+	console.log(movieData)
+
 	const resp = await fetch(
-		`/gpt?data=${btoa(
+		`/gpt/${btoa(
 			unescape(
 				encodeURIComponent(
 					JSON.stringify(
@@ -18,16 +19,12 @@ const requestOpenAI = async (movieData, setData, setLoading) => {
 				)
 			)
 		)}`,
-		{
-			method: 'get'
-		}
+		{ method: 'post' }
 	);
-	const data = (await resp.json()).data;
-	// */
 
-
-
-	setData(data);
+	setData(
+		(await resp.json())
+	);
 	setLoading(false);
 };
 
@@ -37,9 +34,10 @@ const PersonalizedPitch = ({ movieData }) => {
 
 	useEffect(() => {requestOpenAI(movieData, setData, setLoading)}, []);
 
-	if (isLoading) return "Loading...";
-    if (!data) return "No profile data";
-    return data;
+	if (isLoading) return <>Loading...</>;
+    if (!data) return <>No profile data</>;
+	if (data.error) return <>{data.message}</>;
+    return <>{data.data}</>;
 };
 
 const InnerHit = ({ movieData, fullSize, generatedPitch }) => (
@@ -71,8 +69,6 @@ const Hit = ({ movieData, fullSize, linked, generatedPitch }) => {
 	if (fullSize !== false) fullSize = true; // if it wasn't explicitly set to false, assume its true (the default)
 	if (linked !== true) linked = false; // if it wasn't explicitly set to true, assume its false (the default)
 	if (generatedPitch !== true) generatedPitch = false; // if it wasn't explicitly set to false, assume its true (the default)
-
-	console.log(movieData)
 
 	return linked
 		? (
